@@ -19,10 +19,16 @@ public class Startup
                 Configuration.GetConnectionString("Database"),
                 ServerVersion.AutoDetect(Configuration.GetConnectionString("Database"))
             ));
+        
+        services.AddDistributedMemoryCache(); // for session storage in memory
+
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
     }
-
-
-
  
     // Configure middleware & routing
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,9 +37,9 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
         app.UseHttpsRedirection();
         app.UseRouting();
+        app.UseSession(); 
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>

@@ -72,7 +72,7 @@ namespace back_end.Controllers
             if (userDto == null)
                 return BadRequest();
 
-            var user = new Users("temp", "temp", "hash", "temp", "temp", null, null);
+            var user = new Users("temp", "temp", "hash", "temp", "temp", 0, 3);
 
             user.SetName(userDto.Name);
             user.SetLastName(userDto.LastName);

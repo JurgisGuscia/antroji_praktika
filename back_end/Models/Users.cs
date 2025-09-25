@@ -8,12 +8,12 @@ namespace back_end.Models
         private string _passwordHash = null!;
         private string _userName = null!;
         private string _gender = null!;
-        private int? _group;
-        private int? _role;
+        private int _group;
+        private int _role;
 
         private Users() { }
 
-        public Users(string name, string lastName, string passwordHash, string userName, string gender, int? group, int? role)
+        public Users(string name, string lastName, string passwordHash, string userName, string gender, int group, int role)
         {
             SetName(name);
             SetLastName(lastName);
@@ -29,8 +29,8 @@ namespace back_end.Models
         public string PasswordHash => _passwordHash;
         public string UserName => _userName;
         public string Gender => _gender;
-        public int? Group => _group;
-        public int? Role => _role;
+        public int Group => _group;
+        public int Role => _role;
 
 
         private void HandleInvalid(string str, string log)
@@ -69,8 +69,8 @@ namespace back_end.Models
             _gender = gender;
         }
 
-        public void SetGroup(int? group) => _group = group;
+        public void SetGroup(int group) => _group = group;
 
-        public void SetRole(int? role) => _role = role;
+        public void SetRole(int role) => _role = role;
     }
 }
