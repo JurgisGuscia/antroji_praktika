@@ -1,0 +1,118 @@
+
+USE `u616633249_pp`;
+
+-- Drop tables if they already exist (optional, prevents conflicts)
+DROP TABLE IF EXISTS teises_has_roles;
+DROP TABLE IF EXISTS teises;
+DROP TABLE IF EXISTS vartotojai;
+DROP TABLE IF EXISTS paslaugu_kainos;
+DROP TABLE IF EXISTS bendrijos_has_paslaugos;
+DROP TABLE IF EXISTS paslaugos;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS bendrijos;
+
+-- Create bendrijos
+CREATE TABLE IF NOT EXISTS `bendrijos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `bendrijos_pavadinimas` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+-- Create roles
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `pavadinimas` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `pavadinimas_UNIQUE` (`pavadinimas`)
+) ENGINE = InnoDB;
+
+-- Create vartotojai (Users)
+CREATE TABLE IF NOT EXISTS `vartotojai` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `vartotojas` VARCHAR(100) NOT NULL,
+  `slaptazodzio_hash` VARCHAR(255) NOT NULL,
+  `vardas` VARCHAR(100) NOT NULL,
+  `pavarde` VARCHAR(100) NOT NULL,
+  `lytis` VARCHAR(10) NOT NULL,
+  `bendrijos_id` INT NULL,
+  `roles_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_vartotojai_bendrijos_idx` (`bendrijos_id`),
+  INDEX `fk_vartotojai_roles1_idx` (`roles_id`),
+  CONSTRAINT `fk_vartotojai_bendrijos`
+    FOREIGN KEY (`bendrijos_id`) REFERENCES `bendrijos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_vartotojai_roles1`
+    FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- Create paslaugos (Services)
+CREATE TABLE IF NOT EXISTS `paslaugos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `paslaugos_pavadinimas` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `paslaugos_pavadinimas_UNIQUE` (`paslaugos_pavadinimas`)
+) ENGINE = InnoDB;
+
+-- Create bendrijos_has_paslaugos (Group-Service join table)
+CREATE TABLE IF NOT EXISTS `bendrijos_has_paslaugos` (
+  `bendrijos_id` INT NOT NULL,
+  `paslaugos_id` INT NOT NULL,
+  PRIMARY KEY (`bendrijos_id`, `paslaugos_id`),
+  INDEX `fk_bendrijos_idx` (`bendrijos_id`),
+  INDEX `fk_paslaugos_idx` (`paslaugos_id`),
+  CONSTRAINT `fk_bendrijos`
+    FOREIGN KEY (`bendrijos_id`) REFERENCES `bendrijos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_paslaugos`
+    FOREIGN KEY (`paslaugos_id`) REFERENCES `paslaugos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- Create paslaugu_kainos (Service prices)
+CREATE TABLE IF NOT EXISTS `paslaugu_kainos` (
+  `paslaugos_id` INT NOT NULL,
+  `bendrijos_id` INT NOT NULL,
+  `kaina` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`paslaugos_id`, `bendrijos_id`),
+  INDEX `fk_kainos_bendrijos_idx` (`bendrijos_id`),
+  INDEX `fk_kainos_paslaugos_idx` (`paslaugos_id`),
+  CONSTRAINT `fk_kainos_paslaugos`
+    FOREIGN KEY (`paslaugos_id`) REFERENCES `paslaugos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_kainos_bendrijos`
+    FOREIGN KEY (`bendrijos_id`) REFERENCES `bendrijos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- Create teises (Permissions)
+CREATE TABLE IF NOT EXISTS `teises` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `teise` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `teise_UNIQUE` (`teise`)
+) ENGINE = InnoDB;
+
+-- Create teises_has_roles (Role-Permission join table)
+CREATE TABLE IF NOT EXISTS `teises_has_roles` (
+  `teises_id` INT NOT NULL,
+  `roles_id` INT NOT NULL,
+  PRIMARY KEY (`teises_id`, `roles_id`),
+  INDEX `fk_teises_idx` (`teises_id`),
+  INDEX `fk_roles_idx` (`roles_id`),
+  CONSTRAINT `fk_teises`
+    FOREIGN KEY (`teises_id`) REFERENCES `teises` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_roles`
+    FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;

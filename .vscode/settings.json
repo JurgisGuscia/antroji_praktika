@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e696c018-fc2b-438d-aa2d-0bc1df0a5265/resourceGroups/appsvc_windows_polandcentral/providers/Microsoft.Web/sites/AntraPraktika",
+    "appService.deploySubpath": "back_end\\publish"
+}
