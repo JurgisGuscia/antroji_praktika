@@ -8,7 +8,7 @@ namespace back_end.DTOs
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
-        public int Group { get; set; }
+        public int? Group { get; set; }
         public int Role { get; set; }
     }
 }

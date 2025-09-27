@@ -32,19 +32,35 @@ namespace back_end.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            Response.Cookies.Delete(".AspNetCore.Session");
             return Ok(new { message = "Atsijugnta." });
         }
 
         [HttpGet("me")]
         public IActionResult Me()
         {
-            var user = HttpContext.Session.GetString("User");
-            if (string.IsNullOrEmpty(user))
-            {
+            var username = HttpContext.Session.GetString("User");
+            if (string.IsNullOrEmpty(username))
                 return Unauthorized("Esate neprisijungę.");
-            }
 
-            return Ok(new { username = user });
+            var dbUser = _context.Users
+                .Where(u => u.UserName == username)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Name,
+                    u.LastName,
+                    u.UserName,
+                    u.Gender,
+                    u.Group,
+                    u.Role
+                })
+                .FirstOrDefault();
+
+            if (dbUser == null)
+                return Unauthorized("Esate neprisijungę.");
+
+            return Ok(dbUser);
         }
 
 

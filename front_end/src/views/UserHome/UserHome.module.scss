@@ -1,0 +1,87 @@
+.userHome{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 100px;
+
+    .header{
+        width: 800px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .headerInfo{
+            width: 300px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: flex-start;
+
+            .headerInfoField{
+                img{ 
+                    width: 30px;
+                }
+            }
+        }
+
+        .LogOut{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 40px;
+            border: none;
+            outline: none;
+            background-color: #335765;
+            color: #eee;
+            border-radius: 5px;
+  
+            user-select: none;  
+            &:hover{
+                cursor: pointer;
+                background-color: #fff;
+                color:#335765;
+                border: solid #335765 1px;
+            }
+            & img{
+                width: 40px;
+            }
+        }
+    }
+
+    .body{
+        
+        margin-top: 30px;
+        width: 800px;
+        height: auto;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        p{
+            margin-bottom: 10px;
+        }
+
+        .service{
+            padding-left: 50px;
+            width: 400px;
+            height: auto;
+            display: flex;
+            flex-flow: row nowrap;
+            .pavadinimas{
+                width: 200px;
+            }
+
+            .kaina{
+                width: 50px;
+                text-align: right;
+                margin-right: 10px;
+            }
+        }
+    }
+}

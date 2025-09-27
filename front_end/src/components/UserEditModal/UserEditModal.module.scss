@@ -1,0 +1,115 @@
+.modalContainer{
+    width: 100vw;
+    height: 100vh;
+    position:absolute;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    .modalWindow{
+        background-color: #fff;
+        width: 400px;
+        border: solid #335765 1px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 30px;
+        height: 360px;
+        padding: 30px 10px;
+        .modalInput{
+            display: flex;
+            width: 100%;
+            height: auto;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items:center;
+            gap: 10px;
+            p{
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                span{
+                    height: 100%;
+                    width: 70px;
+                    height: 30px;
+                    line-height: 30px;
+                }
+                input{
+                    outline:none;
+                    width: 300px;
+                    height: 30px;
+                    line-height: 30px;
+                    border-radius: 5px;
+                    border: solid 1px #335765;
+                    padding: 0px 5px;
+                }
+                select{
+                    appearance: none;         /* Remove default arrow (cross-browser) */
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+
+                    outline:none;
+                    width: 300px;
+                    height: 30px;
+                    line-height: 30px;
+                    border-radius: 5px;
+                    border: solid 1px #335765;
+                    padding: 0px 5px;
+                    
+                }
+                .imgContainer{
+                    width: 300px;
+                    height: 30px;
+                    text-align: left;
+                    img{
+                        width: 15px;
+                    }
+                }
+                
+            }
+            
+        }
+
+        .modalControl{
+            display: flex;
+            width: 100%;
+            height: 30px;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            .modalControlButton{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 70px;
+                height: 30px;
+                border: none;
+                outline: none;
+                background-color: #335765;
+                color: #eee;
+                border-radius: 5px;
+                font-size: 12px;
+                user-select: none;  
+                &:hover{
+                    cursor: pointer;
+                    background-color: #fff;
+                    color:#335765;
+                    border: solid #335765 1px;
+                }
+            }
+            img{
+                width: 40px;
+            }
+        }
+    }
+    
+}

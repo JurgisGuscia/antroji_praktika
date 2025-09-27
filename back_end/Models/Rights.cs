@@ -6,7 +6,6 @@ namespace back_end.Models
         private string _pavadinimas = null!;
         public string Pavadinimas => _pavadinimas;
 
-        // navigation property for many-to-many
         public ICollection<Roles> Roles { get; set; } = new List<Roles>();
     }
 }

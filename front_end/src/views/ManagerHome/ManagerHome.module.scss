@@ -1,0 +1,157 @@
+.adminHome{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 100px;
+
+    .header{
+        width: 800px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: solid #335765 1px;
+        border-radius: 5px;
+        padding: 0px 10px;
+        .headerInfo{
+            width: 300px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: flex-start;
+
+            .headerInfoField{
+                img{ 
+                    width: 10px;
+                }
+            }
+        }
+
+        .LogOut{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 40px;
+            border: none;
+            outline: none;
+            background-color: #335765;
+            color: #eee;
+            border-radius: 5px;
+  
+            user-select: none;  
+            &:hover{
+                cursor: pointer;
+                background-color: #fff;
+                color:#335765;
+                border: solid #335765 1px;
+            }
+            & img{
+                width: 40px;
+            }
+        }
+    }
+
+    .body{
+        margin-top: 30px;
+        width: 800px;
+        height: auto;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        p{
+            margin-bottom: 10px;
+        }
+
+        .groupControl{
+            width: 260px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            .controlHead{
+                display: flex;
+                width: 100%;
+                height: 40px;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: center;
+
+                .addButton{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 70px;
+                    height: 30px;
+                    border: none;
+                    outline: none;
+                    background-color: #335765;
+                    color: #eee;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    user-select: none;  
+                    &:hover{
+                        cursor: pointer;
+                        background-color: #fff;
+                        color:#335765;
+                        border: solid #335765 1px;
+                    }
+                }
+            }
+            .controlsList{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            border: solid #335765 1px;
+            padding: 5px;
+            border-radius: 5px;
+            img{
+                width: 50px;
+            }
+            }
+        }
+        
+    }
+    .managerUpdateContainer{
+        width: 800px;
+        height: 30px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 40px;
+            border: none;
+            outline: none;
+            background-color: #335765;
+            color: #eee;
+            border-radius: 5px;
+  
+            user-select: none;  
+            &:hover{
+                cursor: pointer;
+                background-color: #fff;
+                color:#335765;
+                border: solid #335765 1px;
+            }
+            & img{
+                width: 40px;
+            }
+        }
+    }
+}

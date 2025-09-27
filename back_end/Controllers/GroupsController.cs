@@ -41,6 +41,9 @@ namespace back_end.Controllers
             return Ok(group);
         }
 
+        
+
+
         //POST: api/groups
         [HttpPost]
         public IActionResult Create(GroupsDto groupsDto)
@@ -95,15 +98,34 @@ namespace back_end.Controllers
         public IActionResult Delete(int id)
         {
             var group = _context.Groups.Find(id);
-
             if (group == null)
                 return NotFound();
 
-            _context.Groups.Remove(group);
-            _context.SaveChanges();
+            using var tx = _context.Database.BeginTransaction();
+            try
+            {
+                var usersInGroup = _context.Users
+                    .AsEnumerable()          
+                    .Where(u => u.Group == id)
+                    .ToList();
 
-            return NoContent();
+                foreach (var u in usersInGroup)
+                    u.SetGroup(null);
+
+                _context.SaveChanges();
+                _context.Groups.Remove(group);
+                _context.SaveChanges();
+
+                tx.Commit();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                tx.Rollback();
+                return StatusCode(500, $"Klaida šalinant bendriją: {ex.InnerException?.Message ?? ex.Message}");
+            }
         }
+
         
 
         //=================================================================================
@@ -124,12 +146,27 @@ namespace back_end.Controllers
                 .Select(s => new ServicesDto
                 {
                     Id = s.Id,
-                    Name = s.Pavadinimas
+                    Name = s.Pavadinimas,
+                    Price = s.Kaina
                 })
                 .ToList();
 
             return Ok(services);
         }
+
+        [HttpGet("{groupId}/users")]
+        public IActionResult GetUsersForGroup(int groupId)
+        {
+            var groups = _context.Users
+                .AsNoTracking()
+                .ToList()                         // force EF to load all users
+                .Where(u => u.Group == groupId)   // filter in memory (C# only)
+                .Select(u => u.Id)                // return user IDs
+                .ToList();
+
+            return Ok(groups);
+        }
+
 
         public class UpdateServicesDto
         {
@@ -165,9 +202,6 @@ namespace back_end.Controllers
                 Services = services.Select(s => s.Id).ToList()
             });
         }
-
-
-
     }
     
 }

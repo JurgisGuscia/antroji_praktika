@@ -26,6 +26,7 @@ namespace back_end.Controllers
         public IActionResult GetAll()
         {
             var users = _context.Users
+                .AsEnumerable()
                 .Select(u => new UserDto
                 {
                     Id = u.Id,
@@ -33,10 +34,11 @@ namespace back_end.Controllers
                     LastName = u.LastName,
                     UserName = u.UserName,
                     Gender = u.Gender,
-                    Group = u.Group,
+                    Group = u.Group,   
                     Role = u.Role
                 })
                 .ToList();
+
 
             return Ok(users);
         }
@@ -46,6 +48,7 @@ namespace back_end.Controllers
         public IActionResult GetUser(int id)
         {
             var user = _context.Users
+                .AsEnumerable()
                 .Where(u => u.Id == id)
                 .Select(u => new UserDto
                 {
@@ -54,10 +57,11 @@ namespace back_end.Controllers
                     LastName = u.LastName,
                     UserName = u.UserName,
                     Gender = u.Gender,
-                    Group = u.Group,
+                    Group = u.Group,   // client-side
                     Role = u.Role
                 })
                 .FirstOrDefault();
+
 
             if (user == null)
                 return NotFound();
@@ -72,7 +76,7 @@ namespace back_end.Controllers
             if (userDto == null)
                 return BadRequest();
 
-            var user = new Users("temp", "temp", "hash", "temp", "temp", 0, 3);
+            var user = new Users("temp", "temp", "hash", "temp", "temp", null, 3);
 
             user.SetName(userDto.Name);
             user.SetLastName(userDto.LastName);
@@ -127,7 +131,7 @@ namespace back_end.Controllers
             return Ok("Vartotojo duomenys atnaujinti.");
         }
         
-        // DELETE: api/vartotojai/{id}
+        // DELETE: api/users/{id}
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -140,6 +144,33 @@ namespace back_end.Controllers
             _context.SaveChanges();
 
             return NoContent(); 
+        }
+
+
+        // PUT: api/users/assignUsers/{group}
+        [HttpPut("assignUsers/{group}")]
+        public IActionResult AssignGroup(int group, [FromBody] int[] selectedUsers)
+        {
+            if (selectedUsers == null)
+                return BadRequest("Pateiktas neteisingas vartotojų sąrašas.");
+                
+            if (!_context.Groups.Any(g => g.Id == group))
+                return BadRequest($"Grupė su id {group} neegzistuoja.");
+                
+            var currentGroupUsers = _context.Users
+                    .AsEnumerable()
+                    .Where(u => u.Group == group)
+                    .ToList();
+
+            foreach (var user in currentGroupUsers)
+                user.SetGroup(null);
+
+            var usersToAssign = _context.Users.Where(u => selectedUsers.Contains(u.Id)).ToList();
+            foreach (var user in usersToAssign)
+                user.SetGroup(group);
+
+            _context.SaveChanges();
+            return Ok("Duomenys atnaujinti.");
         }
     }
 }

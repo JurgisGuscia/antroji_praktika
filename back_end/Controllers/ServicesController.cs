@@ -93,7 +93,37 @@ namespace back_end.Controllers
 
             return Ok(updatedDto);
         }
+        
+        // PUT: api/services/prices
+        [HttpPut("prices")]
+        public IActionResult UpdatePrices([FromBody] IEnumerable<ServicesDto> body)
+        {
+            if (body == null)
+                return BadRequest("Neteisingas užklausos formatas.");
 
+            var priceMap = body.ToDictionary(x => x.Id, x => x.Price);
+            var ids = priceMap.Keys.ToList();
+
+            var services = _context.Services
+                .Where(s => ids.Contains(s.Id))
+                .ToList();
+
+            if (!services.Any())
+                return NotFound("Paslaugos nerastos.");
+
+            foreach (var s in services)
+            {
+                var newPrice = priceMap[s.Id];
+                s.SetKaina(newPrice);
+            }
+            _context.SaveChanges();
+            var missing = ids.Except(services.Select(s => s.Id)).ToArray();
+            var msg = missing.Length == 0
+                ? $"Atnaujintos {services.Count} paslaugų kainos."
+                : $"Atnaujintos {services.Count} paslaugų kainos. Nerasti ID: {string.Join(", ", missing)}";
+
+            return Ok(msg);
+        }
 
         // DELETE: api/services/{id}
         [HttpDelete("{id}")]

@@ -1,0 +1,57 @@
+.modalContainer{
+    width: 100vw;
+    height: 100vh;
+    position:absolute;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    .modalWindow{
+        background-color: #fff;
+        width: 200px;
+        height: 200px;
+        border: solid #335765 1px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 30px;
+        padding: 30px 10px;
+        .modalControl{
+            display: flex;
+            width: 100%;
+            height: 30px;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            .modalControlButton{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 70px;
+                height: 30px;
+                border: none;
+                outline: none;
+                background-color: #335765;
+                color: #eee;
+                border-radius: 5px;
+                font-size: 12px;
+                user-select: none;  
+                &:hover{
+                    cursor: pointer;
+                    background-color: #fff;
+                    color:#335765;
+                    border: solid #335765 1px;
+                }
+            }
+            img{
+                width: 40px;
+            }
+        }
+    }
+    
+}

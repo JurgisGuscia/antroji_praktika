@@ -32,7 +32,6 @@ namespace back_end.Models
             _kaina = kaina;
         }
         
-        // navigation property for many-to-many
         public ICollection<Groups> Groups { get; set; } = new List<Groups>();
         
     }

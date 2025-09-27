@@ -34,9 +34,10 @@ namespace back_end.Data.Configurations
                         .HasColumnName("lytis")
                         .IsRequired();
 
-                  entity.Property<int>("_group")
+                  entity.Property<int?>("_group")
+                        .HasField("_group")
                         .HasColumnName("bendrijos_id")
-                        .IsRequired();
+                        .IsRequired(false); 
 
                   entity.Property<int>("_role")
                         .HasColumnName("roles_id") 

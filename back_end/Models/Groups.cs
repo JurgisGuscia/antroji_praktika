@@ -21,8 +21,6 @@ namespace back_end.Models
             _pavadinimas = name;
         }
 
-       // navigation property for many-to-many
         public ICollection<Services> Services { get; set; } = new List<Services>();
-
     }
 }
